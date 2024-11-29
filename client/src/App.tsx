@@ -1,25 +1,28 @@
-import { Button } from "./components/ui/button";
+import Landing from "./pages/Landing/Landing";
+import { Toaster } from "@/components/ui/toaster"
+import { AuthProvider } from './context/AuthContext.tsx';
+import { BrowserRouter, Route, Routes } from "react-router";
+import Auth from './pages/Auth/Auth.tsx';
+import Dashboard from "./pages/Dashboard/Dashboard.tsx";
+
+const AppRouter = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route index path="/" element={<Landing />}/>
+        <Route path='/auth' element={<Auth />} />
+        <Route path='/dashboard' element={<Dashboard/>} />
+      </Routes> 
+    </BrowserRouter>
+  )
+}
 
 function App() {
   return (
-    <div className="bg-background text-accent">
-      <h1 className="text-3xl font-bold underline">
-        AURA
-      </h1>
-      <Button className="font-messina-mono font-bold">SUBMIT</Button>
-      <div className="font-light text-lg">
-        This is Messina Sans Light.
-      </div>
-
-      <div className="font-bold text-xl">
-        This is Messina Sans Bold.
-      </div>
-
-      <div className="font-messina-mono font-black text-base">
-        This is Messina Sans Mono Black.
-      </div>
-
-    </div>
+    <AuthProvider>
+      <AppRouter />
+      <Toaster />
+    </AuthProvider>
   )
 }
 
