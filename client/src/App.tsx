@@ -7,11 +7,11 @@ function App() {
         AURA
       </h1>
       <Button className="font-messina-mono font-bold">SUBMIT</Button>
-      <div className="font-messina font-light text-lg">
+      <div className="font-light text-lg">
         This is Messina Sans Light.
       </div>
 
-      <div className="font-messina font-bold text-xl">
+      <div className="font-bold text-xl">
         This is Messina Sans Bold.
       </div>
 
