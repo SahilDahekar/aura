@@ -2,11 +2,11 @@ import { Button } from "./components/ui/button";
 
 function App() {
   return (
-    <div>
+    <div className="bg-background text-accent">
       <h1 className="text-3xl font-bold underline">
         AURA
       </h1>
-      <Button>Submit</Button>
+      <Button className="font-messina-mono font-bold">SUBMIT</Button>
       <div className="font-messina font-light text-lg">
         This is Messina Sans Light.
       </div>
