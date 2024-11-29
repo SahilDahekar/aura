@@ -26,6 +26,7 @@ const verifyToken = (req, res, next) => {
   
       try {
         const decoded = jwt.verify(token, process.env.JWT)
+        console.log(decoded)
         // console.log('Decoded token:', decoded)
         res.locals.jwtData = decoded
         //console.log(decoded)

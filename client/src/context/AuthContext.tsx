@@ -35,10 +35,12 @@ import {
     async function checkStatus() {
       try {
         const data = await checkAuthStatus();
+        console.log(data)
         if (data) {
           setUser({ email: data.email, name: data.name });
           setIsLoggedIn(true);
         }
+      
       } catch (error) {
 
       } finally {
