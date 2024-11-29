@@ -49,7 +49,7 @@ export const login = async (req, res) => {
         }
 
         // Compare passwords
-        const isPasswordValid = await user.matchPassword(password); // Defined in User model
+        const isPasswordValid = await bcrypt.compare(password,user.password) // Defined in User model
         if (!isPasswordValid) {
             return res
                 .status(401)
@@ -63,6 +63,7 @@ export const login = async (req, res) => {
                 expiresIn: "1h",
             }
         );
+        console.log(token)
 
         res.cookie("token", token, {
             path: "/",
@@ -72,7 +73,7 @@ export const login = async (req, res) => {
             sameSite: "lax",
         });
 
-        return res.status(201).json();
+        return res.status(201).json({message:"user logged in successfully",email:user.email,name:user.name});
     } catch (err) {
         console.log(err);
     }
