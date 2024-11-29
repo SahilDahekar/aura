@@ -9,7 +9,8 @@ export default {
     	extend: {
     		fontFamily: {
     			messina: ['Messina Sans', 'sans-serif'],
-    			'messina-mono': ['Messina Sans Mono', 'monospace']
+    			'messina-mono': ['Messina Sans Mono', 'monospace'],
+				'playwrite': ['"Playwrite HR Lijeva"', 'cursive'],
     		},
     		fontWeight: {
     			light: '300',
