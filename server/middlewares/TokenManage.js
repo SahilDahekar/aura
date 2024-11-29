@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken'
 import cookieParser from 'cookie-parser'
 import express from 'express'
 import 'dotenv/config'
-import { decode } from 'punycode'
 
 const app = express()
 app.use(cookieParser())

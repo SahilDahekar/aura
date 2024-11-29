@@ -22,8 +22,8 @@ const AppRouter = () => {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-    <AppRouter />
-    <Toaster />
+      <AppRouter />
+      <Toaster />
     </AuthProvider>
   </StrictMode>,
 )
