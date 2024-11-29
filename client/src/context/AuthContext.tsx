@@ -40,7 +40,7 @@ import {
           setIsLoggedIn(true);
         }
       } catch (error) {
-        console.log("Login failed please try again !!!");
+
       } finally {
         setIsLoading(false);
       }

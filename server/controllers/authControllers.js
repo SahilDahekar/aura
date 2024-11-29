@@ -73,7 +73,7 @@ export const login = async (req, res) => {
             sameSite: "lax",
         });
 
-        return res.status(201).json({message:"user logged in successfully",email:user.email,name:user.name});
+        return res.status(200).json({message:"user logged in successfully",email:user.email,name:user.name});
     } catch (err) {
         console.log(err);
     }
