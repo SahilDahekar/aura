@@ -5,19 +5,40 @@ import 'dotenv/config'
 
 const app = express()
 app.use(cookieParser())
-export const verifyToken = (req, res, next) => {
-    const token = req.cookies.token || req.headers['authorization']?.split(' ')[1]; // Check both cookies and Authorization header
-    if (!token) {
-        return res.status(401).json({ message: 'Token is missing or invalid' });
-    }
-
+const verifyToken = (req, res, next) => {
     try {
-        const decoded = jwt.verify(token, process.env.JWT);
-        res.locals.jwtData = decoded;  // Store the decoded token in locals
-        next();
+      //console.log('Headers:', req.headers)
+      //console.log('Cookies from parser:', req.cookies)
+      //console.log('Raw cookie header:', req.headers.cookie)
+  
+      const token =
+        req.headers.cookie
+          ?.split(';')
+          .find(c => c.trim().startsWith('token='))
+          ?.split('=')[1]
+
+          console.log(token)
+  
+      if (!token) {
+        console.log('No token found')
+        return res.status(401).json({ error: 'Authentication required' })
+      }
+  
+      try {
+        const decoded = jwt.verify(token, process.env.JWT)
+        // console.log('Decoded token:', decoded)
+        res.locals.jwtData = decoded
+        //console.log(decoded)
+        next()
+      } catch (jwtError) {
+        console.log('JWT verification failed:', jwtError)
+        return res.status(401).json({ error: 'Invalid token' })
+      }
     } catch (err) {
-        return res.status(401).json({ message: 'Invalid or expired token' });
+      console.error('Auth middleware error:', err)
+      return res.status(500).json({ error: 'Internal server error' })
     }
-};
+  }
+  
 
 export default verifyToken
