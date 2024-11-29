@@ -5,7 +5,7 @@ export const loginUser = async (email: string, password: string) => {
   if (res.status !== 200) {
     throw new Error("Unable to login");
   }
-  const data = await res.data;
+  const data = res.data;
   return data;
 };
 
@@ -18,7 +18,7 @@ export const signupUser = async (
   if (res.status !== 201) {
     throw new Error("Unable to Signup");
   }
-  const data = await res.data;
+  const data =  res.data;
   return data;
 };
 
@@ -27,7 +27,7 @@ export const checkAuthStatus = async () => {
   if (res.status !== 200) {
     throw new Error("Unable to authenticate");
   }
-  const data = await res.data;
+  const data =  res.data;
   return data;
 };
 
@@ -36,6 +36,6 @@ export const logoutUser = async () => {
     if (res.status !== 200) {
       throw new Error("Unable to delete chats");
     }
-    const data = await res.data;
+    const data =  res.data;
     return data;
   };

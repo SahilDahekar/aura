@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import App from './App.tsx'
 import Auth from './pages/Auth/Auth.tsx';
 import { Toaster } from "@/components/ui/toaster"
+import { AuthProvider } from './context/AuthContext.tsx';
 
 
 const AppRouter = () => {
@@ -20,7 +21,9 @@ const AppRouter = () => {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <AuthProvider>
     <AppRouter />
     <Toaster />
+    </AuthProvider>
   </StrictMode>,
 )

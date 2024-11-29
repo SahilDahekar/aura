@@ -46,10 +46,11 @@ function Login() {
 
         const email = values.email;
         const password = values.password;
+        console.log(email,password)
         try {
           await auth?.login(email, password);
           setIsLoading(false);
-        //   navigate("/broadcast");
+          navigate("/")
         } catch (error) {
           console.log(error);
           setIsLoading(false);
