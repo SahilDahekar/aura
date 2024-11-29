@@ -24,6 +24,7 @@ export const signupUser = async (
 
 export const checkAuthStatus = async () => {
   const res = await api.get("/user/verify");
+  console.log(res.data)
   if (res.status !== 200) {
     throw new Error("Unable to authenticate");
   }
