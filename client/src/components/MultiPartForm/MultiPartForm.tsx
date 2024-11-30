@@ -10,12 +10,12 @@ import { Button } from "@/components/ui/button";
 import { MultiSelect } from "@/components/MultiSelect/multi-select";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-// Updated Zod Schemas with mandatory fields
+// Updated Zod Schema with a single URL field
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   id: z.string().min(1, "ID is required"),
   tools: z.array(z.string()).nonempty("Select at least one tool"),
-  toolSpecificInputs: z.record(z.string(), z.string().min(1, "URL is required for each selected tool")),
+  commonUrl: z.string().min(1, "Common URL is required"),
   notificationChannel: z.enum(["Slack", "Email"], { required_error: "Notification channel is required" }),
   notificationLink: z.string().min(1, "Notification link is required")
 });
@@ -30,7 +30,7 @@ const frameworksList = [
   { value: "ember", label: "Ember"},
 ];
 
-export default function TestForm() {
+export default function MultiPartForm() {
   const [step, setStep] = useState(0);
   const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([]);
 
@@ -41,7 +41,7 @@ export default function TestForm() {
       name: "",
       id: "",
       tools: [],
-      toolSpecificInputs: {},
+      commonUrl: "",
       notificationChannel: undefined,
       notificationLink: ""
     },
@@ -60,7 +60,7 @@ export default function TestForm() {
         });
         break;
       case 1:
-        form.trigger("toolSpecificInputs").then((isValid) => {
+        form.trigger("commonUrl").then((isValid) => {
           if (isValid) {
             setStep((prev) => Math.min(prev + 1, 2));
           }
@@ -95,7 +95,7 @@ export default function TestForm() {
     <Form {...form}>
       <form 
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 max-w-3xl mx-auto py-10"
+        className="space-y-8 max-w-2xl py-6"
       >
         {step === 0 && (
           <div className="space-y-6">
@@ -178,30 +178,20 @@ export default function TestForm() {
           <div className="space-y-6">
             <FormField
               control={form.control}
-              name="toolSpecificInputs"
+              name="commonUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tool-specific configurations</FormLabel>
-                  <div className="space-y-4">
-                    {tools.map((tool) => (
-                      <div key={tool}>
-                        <FormLabel>{tool} URL</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="text"
-                            placeholder={`Enter URL for ${tool}`}
-                            value={field.value?.[tool] || ''}
-                            onChange={(e) => {
-                              field.onChange({
-                                ...field.value,
-                                [tool]: e.target.value
-                              });
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </div>
-                    ))}
+                  <FormLabel>Common URL for Selected Frameworks</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Enter common URL for all selected frameworks"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                  <div className="mt-2 text-sm text-muted-foreground">
+                    This URL will be applied to all selected frameworks: {selectedFrameworks.join(", ")}
                   </div>
                 </FormItem>
               )}
