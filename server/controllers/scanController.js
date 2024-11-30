@@ -1,5 +1,6 @@
-import { Scan } from "../models/User";
-import yaml from 'js-'
+import  {Scan}  from "../models/User.js";
+import yaml from "js-yaml"
+import { v4 as uuidv4 } from 'uuid';
 
 
 const generateConfig = (url, tool) => {
