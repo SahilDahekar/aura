@@ -2,8 +2,21 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Menu, X } from "lucide-react";
 import { Link, NavLink } from "react-router";
+import { useAuth } from "@/context/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const Navbar = () => {
+    const auth = useAuth();
+    const { toast } = useToast();
+
+    console.log(auth);
+
+    function handleLogout(){
+        auth?.logout();
+        toast({
+            title : `Logged out ${auth?.user?.name}`
+        });
+    }
 
     const[menu, setMenu] = useState<boolean>(false);
 
@@ -20,7 +33,9 @@ const Navbar = () => {
                 <li><NavLink to='/#contact' className='hover:underline underline-offset-4 transition-transform'>Contact</NavLink></li>
             </ul>
             <div className="hidden md:block">
-                <Link to='/auth'><Button className="font-messina-mono font-bold">SIGN IN</Button></Link>
+                { 
+                    auth?.user ? <Button onClick={handleLogout} className="font-messina-mono font-bold">LOGOUT</Button> : <Link to='/auth'><Button className="font-messina-mono font-bold">SIGN IN</Button></Link>
+                }
             </div>
             <Button variant="ghost" size="icon" className="md:hidden text-white" onClick={() => setMenu(!menu)}>
                 {menu ? <X /> : <Menu />}

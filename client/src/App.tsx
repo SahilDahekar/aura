@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import Auth from './pages/Auth/Auth.tsx';
 import Dashboard from "./pages/Dashboard/Dashboard.tsx";
 import TestForm from "./components/TestForm/TestForm.tsx";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.tsx";
 
 const AppRouter = () => {
   return (
@@ -12,7 +13,7 @@ const AppRouter = () => {
       <Routes>
         <Route index path="/" element={<Landing />}/>
         <Route path='/auth' element={<Auth />} />
-        <Route path='/dashboard' element={<Dashboard/>} />
+        <Route path='/dashboard' element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
         <Route path='/test' element={<TestForm />} />
       </Routes> 
     </BrowserRouter>

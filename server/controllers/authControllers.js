@@ -82,7 +82,8 @@ export const login = async (req, res) => {
 export const logout = async (req, res, next) => {
     try {
         // User token check
-        const user = await User.findById(res.locals.jwtData.id);
+        const user = await User.find({email:res.locals.jwtData.email});
+        console.log(user)
 
         if (!user) {
             return res
@@ -90,7 +91,7 @@ export const logout = async (req, res, next) => {
                 .send("User not registered OR Token malfunctioned");
         }
 
-        if (user._id.toString() !== res.locals.jwtData.id) {
+        if (user[0].email !== res.locals.jwtData.email ){
             return res.status(401).send("Permissions didn't match");
         }
 
@@ -103,7 +104,7 @@ export const logout = async (req, res, next) => {
 
         return res
             .status(200)
-            .json({ message: "OK", name: user.name, email: user.email });
+            .json({ message: "OK", name: user[0].name, email: user[0].email });
     } catch (error) {
         console.log(error);
         return res.status(404).json({ message: "ERROR", cause: error.message });
