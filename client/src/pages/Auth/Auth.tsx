@@ -18,13 +18,13 @@ function Auth() {
       <div className='w-1/2 grid place-content-center'>
         <Tabs defaultValue="signup" className="w-[400px]">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="signup">Sign Up</TabsTrigger>
-            <TabsTrigger value="login">Login</TabsTrigger>
+            <TabsTrigger className='font-messina-mono font-bold uppercase' value="signup">Sign Up</TabsTrigger>
+            <TabsTrigger className='font-messina-mono font-bold uppercase' value="login">Login</TabsTrigger>
           </TabsList>
           <TabsContent value="signup">
             <Card>
               <CardHeader>
-                <CardTitle className='font-bold text-2xl'>Sign Up</CardTitle>
+                <CardTitle className='font-messina-mono uppercase font-bold text-2xl'>Sign Up</CardTitle>
                 <CardDescription>
                   Create your Aura account to get started.
                 </CardDescription>
@@ -37,7 +37,7 @@ function Auth() {
           <TabsContent value="login">
             <Card>
               <CardHeader>
-                <CardTitle className='font-bold text-2xl'>Login</CardTitle>
+                <CardTitle className='font-messina-mono uppercase font-bold text-2xl'>Login</CardTitle>
                 <CardDescription>
                   Head toward your dashboard by entering your login credentials
                 </CardDescription>

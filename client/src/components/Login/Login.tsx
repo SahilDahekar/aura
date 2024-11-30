@@ -100,13 +100,13 @@ function Login() {
                             <FormItem>
                                 <FormLabel>Password</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Password" {...field} />
+                                    <Input type="password" placeholder="Password" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" className="w-full" disabled={isLoading}>
+                    <Button type="submit" className="w-full font-messina-mono font-bold uppercase" disabled={isLoading}>
                         {isLoading ? (
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         ) : null}{" "}

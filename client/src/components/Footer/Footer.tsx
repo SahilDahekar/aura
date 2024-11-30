@@ -3,7 +3,7 @@ import { Link } from "react-router"
 
 const Footer = () => {
   return (
-    <div className="flex justify-between px-6 max-w-screen-xl mx-auto font-messina-mono text-muted-foreground border-t-2 pt-6">
+    <div className="flex justify-between px-6 max-w-screen-xl mx-auto font-messina-mono text-muted-foreground border-t-2 py-6">
         <p>
             @2024 AURA. All rights reserved.
         </p>

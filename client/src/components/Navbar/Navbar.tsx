@@ -9,7 +9,7 @@ const Navbar = () => {
 
     return (
     <div className="">
-        <nav className="absolute w-full backdrop-blur-lg top-0 flex justify-between items-center px-10 py-6 shadow-md border-b border-primary">
+        <nav className="fixed w-full backdrop-blur-lg top-0 flex justify-between items-center px-10 py-6 shadow-md border-b border-primary">
             <p className="font-playwrite italic font-black text-2xl text-primary">
                 AURA
             </p>
