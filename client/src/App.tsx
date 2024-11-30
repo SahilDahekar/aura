@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext.tsx';
 import { BrowserRouter, Route, Routes } from "react-router";
 import Auth from './pages/Auth/Auth.tsx';
 import Dashboard from "./pages/Dashboard/Dashboard.tsx";
+import TestForm from "./components/TestForm/TestForm.tsx";
 
 const AppRouter = () => {
   return (
@@ -12,6 +13,7 @@ const AppRouter = () => {
         <Route index path="/" element={<Landing />}/>
         <Route path='/auth' element={<Auth />} />
         <Route path='/dashboard' element={<Dashboard/>} />
+        <Route path='/test' element={<TestForm />} />
       </Routes> 
     </BrowserRouter>
   )

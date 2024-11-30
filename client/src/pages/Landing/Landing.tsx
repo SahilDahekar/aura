@@ -1,32 +1,33 @@
 import Footer from "@/components/Footer/Footer"
+import Header from "@/components/Header/Header"
 import Navbar from "@/components/Navbar/Navbar"
 import { Button } from "@/components/ui/button"
-import { MoveRight } from "lucide-react"
-import { Link } from "react-router"
 
 const Landing = () => {
   return (
     <div className="relative">
-      <Navbar/>
-      <div className="max-w-screen-xl mx-auto px-10 pb-10 pt-36">
-        <div className="">
-          <h1 className="uppercase text-8xl text-primary font-bold  font-messina-mono tracking-tight">Control <span className="text-white block">your <span className="-ml-8">security</span></span> assessment</h1>
-        </div>
-        {/* <div className="mt-5 text-5xl">
-          <p>
-            Typewritter div
-          </p>
-        </div> */}
-        <div className="mt-5 text-4xl max-w-4xl">
-          <p>Unified vulnerability management platform that brings all your security tools together</p>
-        </div>
-        <div className="flex gap-4 my-8">
-          <Link to='/auth'><Button size='lg' className="font-bold text-lg font-messina-mono">Get Started for Free</Button></Link>
-          <Button size='lg' variant='secondary' className="font-bold font-messina-mono">Learn More <MoveRight /></Button>
-        </div>
+      <Navbar />
+      <Header />
+      <div>
+        <h2 className="uppercase text-5xl font-messina-mono font-bold text-center">Aura Platform</h2>
       </div>
       <div>
-        
+        <div className="max-w-xl rounded-md bg-[#007aff] grid grid-cols-2 divide-y">
+          <div className="">
+            <h3 className="text-4xl text-primary font-messina-mono font-bold">INTRODUCING AURA INSIGHT!</h3>
+            <p>A revolutionary, AI-powered vulnerability management workflow that starts with comprehensive tool integration, provides intelligent risk scoring, and creates your first unified security dashboard in less than 15 mins.</p>
+            <Button className="">TAKE CONTROL OF YOUR SECURITY LANDSCAPE</Button>
+          </div>
+          <div className="">
+            <h3>Now You Can Expect:</h3>
+            <ul>
+              <li>Instantly Consolidate Multiple Security Tools</li>
+              <li>Gain Comprehensive Vulnerability Visibility</li>
+              <li>At Least 50% Faster Risk Assessment</li>
+              <li>Significant Security Optimization</li>
+            </ul>
+          </div>
+        </div>
       </div>
       <Footer />
     </div>

@@ -68,7 +68,7 @@ function Login() {
             toast({
                 title : `Logged in as ${auth?.user?.name}`
             })
-            navigate("/broadcast");
+            navigate("/dashboard");
         }, 500);
       }
     },[auth])
