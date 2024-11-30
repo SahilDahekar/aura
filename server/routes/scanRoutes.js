@@ -4,7 +4,7 @@ import verifyToken from '../middlewares/TokenManage.js'
 
 const scanRouter = Router()
 
-scanRouter.post("/scaninitiate",verifyToken,sccanRequest)
+scanRouter.post("/scaninitiate",sccanRequest)
 scanRouter.get('/getscans',verifyToken,getScans)
 
 

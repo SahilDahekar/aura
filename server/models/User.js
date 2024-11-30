@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const scanSchema = new mongoose.Schema({
-    userEmail: { type: String, required: true },
+    userEmail: { type: String, },
     tools: [{ type: String }],
     url:{type:String,required:true},// Example: ['OWASP Zap', 'Nikto']
     status: { type: String, default: 'Pending' },

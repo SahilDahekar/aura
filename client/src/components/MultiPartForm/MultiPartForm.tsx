@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MultiSelect } from "@/components/MultiSelect/multi-select";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import api from "@/lib/api";
 
 // Updated Zod Schema with a single URL field
 const formSchema = z.object({
@@ -23,11 +24,9 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const frameworksList = [
-  { value: "react", label: "React" },
-  { value: "angular", label: "Angular"},
-  { value: "vue", label: "Vue"},
-  { value: "svelte", label: "Svelte"},
-  { value: "ember", label: "Ember"},
+  { value: "owasp_zap", label: "Owasp Zap" },
+  { value: "nikto", label: "Nikto"}
+
 ];
 
 export default function MultiPartForm() {
@@ -73,9 +72,26 @@ export default function MultiPartForm() {
     setStep((prev) => Math.max(prev - 1, 0));
   }
 
+  async function submitData(values:any){
+    try{
+      const payload = {
+        url : values.commonUrl,
+        tool : values.tools,
+        email : values.notificationLink
+      }
+
+      console.log(payload)
+     const res= await api.post('/scan/scaninitiate', payload)
+     console.log(res.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const onSubmit: SubmitHandler<FormData> = (values) => {
     try {
       console.log(values);
+      submitData(values);
       toast({
         title: "Form submitted successfully!",
         description: "All steps completed.",

@@ -26,7 +26,7 @@ const generateConfig = (url, tool) => {
         namespace: "scans",
         flowId: "owasp_zap",
         inputs: {
-          link: "{{inputs.url}}",
+          link: url,
         },
       });
     }
@@ -38,7 +38,7 @@ const generateConfig = (url, tool) => {
         namespace: "scans",
         flowId: "nikto",
         inputs: {
-          link: "{{inputs.url}}",
+          link: url,
         },
       });
     }
@@ -51,7 +51,7 @@ const generateConfig = (url, tool) => {
         {
           id: "url",
           type: "STRING",
-          defaults: url,
+          defaults:"http://testphp.vulnweb.com",
         },
       ],
       tasks: [
@@ -71,10 +71,12 @@ const generateConfig = (url, tool) => {
 
   export const sccanRequest = async(req,res)=>{
     try {
-        const { url,tool } = req.body;
-        const email = res.locals.jwtData.email
+        console.log(req.body)
+        const { url,tool,email } = req.body;
+        
 
-        const scan = await Scan.create({tool,url,email,})
+
+        const scan = await Scan.create({tool,url,userEmail:email,})
 
         if (!Array.isArray(tool)) {
             throw new Error("Tool must be an array of strings");
@@ -82,7 +84,8 @@ const generateConfig = (url, tool) => {
       
           const config = generateConfig(url, tool);
           const yamlConfig = yaml.dump(config); 
-      
+          //kestra api for yaml
+          axios.post(`http://localhost:8080/api/v1/flows`)
   
           res.setHeader('Content-Type', 'text/yaml');
           res.send(yamlConfig);
