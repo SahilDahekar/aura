@@ -92,10 +92,15 @@ export default function MultiPartForm() {
     try {
       console.log(values);
       submitData(values);
+      form.reset();
+      setStep(0);
+      setSelectedFrameworks([]);
+
       toast({
         title: "Form submitted successfully!",
         description: "All steps completed.",
       });
+      
     } catch (error) {
       console.error("Form submission error", error);
       toast({
@@ -168,7 +173,7 @@ export default function MultiPartForm() {
                         setSelectedFrameworks(value);
                       }}
                       defaultValue={selectedFrameworks}
-                      placeholder="Select frameworks"
+                      placeholder="Select tools"
                       variant="inverted"
                       animation={2}
                       maxCount={3}
@@ -177,7 +182,7 @@ export default function MultiPartForm() {
                   <FormMessage />
                   
                   <div className="mt-4">
-                    <h2 className="text-xl font-semibold">Selected Frameworks:</h2>
+                    <h2 className="text-xl font-semibold">Selected Tools:</h2>
                     <ul className="list-disc list-inside">
                       {selectedFrameworks.map((framework) => (
                         <li key={framework}>{framework}</li>
@@ -197,17 +202,17 @@ export default function MultiPartForm() {
               name="commonUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Common URL for Selected Frameworks</FormLabel>
+                  <FormLabel>Common URL for Selected Tools</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Enter common URL for all selected frameworks"
+                      placeholder="Enter common URL for all selected tools"
                       {...field}
                     />
                   </FormControl>
                   <FormMessage />
                   <div className="mt-2 text-sm text-muted-foreground">
-                    This URL will be applied to all selected frameworks: {selectedFrameworks.join(", ")}
+                    This URL will be applied to all selected tools: {selectedFrameworks.join(", ")}
                   </div>
                 </FormItem>
               )}
