@@ -1,10 +1,10 @@
 import {Router} from 'express'
-import {sccanRequest,getScans} from '../controllers/scanController.js'
+import {scanRequest,getScans} from '../controllers/scanController.js'
 import verifyToken from '../middlewares/TokenManage.js'
 
 const scanRouter = Router()
 
-scanRouter.post("/scaninitiate",sccanRequest)
+scanRouter.post("/scaninitiate",scanRequest)
 scanRouter.get('/getscans',verifyToken,getScans)
 
 

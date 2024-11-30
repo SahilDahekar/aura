@@ -1,6 +1,7 @@
 import  {Scan}  from "../models/User.js";
 import yaml from "js-yaml"
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 
 const generateConfig = (url, tool) => {
@@ -69,7 +70,7 @@ const generateConfig = (url, tool) => {
     };
   };
 
-  export const sccanRequest = async(req,res)=>{
+  export const scanRequest = async(req,res)=>{
     try {
         console.log(req.body)
         const { url,tool,email } = req.body;
@@ -84,8 +85,9 @@ const generateConfig = (url, tool) => {
       
           const config = generateConfig(url, tool);
           const yamlConfig = yaml.dump(config); 
-          //kestra api for yaml
-          axios.post(`http://localhost:8080/api/v1/flows`)
+
+          const output = createKestraFlow(yamlConfig);
+          console.log(output);
   
           res.setHeader('Content-Type', 'text/yaml');
           res.send(yamlConfig);
@@ -103,5 +105,23 @@ const generateConfig = (url, tool) => {
         res.status(500).json({message:"there was an error getting your scan requests "})
      }
 
+  }
+
+  const createKestraFlow = async (yamlConfig) => {
+    try {
+      const res = await axios.post(
+        'http://localhost:8080/api/v1/flows', // Replace with your Kestra API URL
+        yamlConfig,
+        {
+          headers: {
+            'Content-Type': 'application/x-yaml', // Specify the content type
+          },
+        }
+      );
+  
+      return res.data;
+    } catch (error) {
+      console.error('Error posting flow:', error.response?.data || error.message);
+    }
   }
 
