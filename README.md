@@ -105,6 +105,27 @@
     withCredentials: true,
    });
    ```
+6. **Change cookie domain to localhost**
+      Paste the below code to client/src/lib/api.ts
+    ```js
+     res.clearCookie("token", {
+            httpOnly: true,
+            domain: "localhost",
+            signed: true,
+            path: "/",
+        });
+   ```
+    ```js
+     res.cookie("token", token, {
+            path: "/",
+            httpOnly: true,
+            domain: "localhost",
+            maxAge: 60 * 60 * 1000,
+            sameSite: "lax",
+        });
+   ```
+    
+   
    
     
 
