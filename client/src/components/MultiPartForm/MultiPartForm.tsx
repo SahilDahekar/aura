@@ -10,12 +10,14 @@ import { Button } from "@/components/ui/button";
 import { MultiSelect } from "@/components/MultiSelect/multi-select";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import api from "@/lib/api";
+import { useAuth } from "@/context/AuthContext";
 
 // Updated Zod Schema with a single URL field
 const formSchema = z.object({
   name: z.string()
     .min(1, "Name is required")
     .transform(val => val.toLowerCase()),
+  email: z.string().min(1, "Email is required").email("Invalid email format"),
   tools: z.array(z.string()).nonempty("Select at least one tool"),
   commonUrl: z.string()
     .min(1, "Common URL is required")
@@ -23,8 +25,7 @@ const formSchema = z.object({
     .refine(val => val.startsWith('https://'), {
       message: "Only HTTPS links are allowed"
     }),
-  notificationChannel: z.enum(["Slack", "Email"], { required_error: "Notification channel is required" }),
-  notificationLink: z.string().min(1, "Notification link is required")
+  notificationChannel: z.enum(["Slack"], { required_error: "Notification channel is required" }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -36,6 +37,7 @@ const frameworksList = [
 ];
 
 export default function MultiPartForm() {
+  const auth = useAuth();
   const [step, setStep] = useState(0);
   const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([]);
 
@@ -44,10 +46,10 @@ export default function MultiPartForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      email: "",
       tools: [],
       commonUrl: "",
-      notificationChannel: undefined,
-      notificationLink: ""
+      notificationChannel: undefined
     },
   });
 
@@ -82,7 +84,7 @@ export default function MultiPartForm() {
       const payload = {
         url : values.commonUrl,
         tool : values.tools,
-        email : values.notificationLink,
+        email : values.email,
         name: values.name
       }
   
@@ -104,7 +106,7 @@ export default function MultiPartForm() {
 
       toast({
         title: "Form submitted successfully!",
-        description: "All steps completed.",
+        description: "Check My Scans to start execution",
       });
       
     } catch (error) {
@@ -124,7 +126,7 @@ export default function MultiPartForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 max-w-2xl py-6"
       >
-        {step === 0 && (
+        {/* {step === 0 && (
           <div className="space-y-6">
             <FormField
               control={form.control}
@@ -177,6 +179,82 @@ export default function MultiPartForm() {
               )}
             />
           </div>
+        )} */}
+
+        {step === 0 && (
+          <div className="space-y-6">
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your name"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter your email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="tools"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Select your tools</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      options={frameworksList}
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        setSelectedFrameworks(value);
+                      }}
+                      defaultValue={selectedFrameworks}
+                      placeholder="Select tools"
+                      variant="inverted"
+                      animation={2}
+                      maxCount={3}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                  
+                  <div className="mt-4">
+                    <h2 className="text-xl font-semibold">Selected Tools:</h2>
+                    <ul className="list-disc list-inside">
+                      {selectedFrameworks.map((framework) => (
+                        <li key={framework}>{framework}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            {/* Rest of step 0 fields... */}
+          </div>
         )}
 
         {step === 1 && tools && tools.length > 0 && (
@@ -225,7 +303,6 @@ export default function MultiPartForm() {
                         </FormControl>
                         <SelectContent>
                           <SelectItem value="Slack">Slack</SelectItem>
-                          <SelectItem value="Email">Email</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -233,27 +310,20 @@ export default function MultiPartForm() {
                   )}
                 />
               </div>
-              <div className="col-span-6">
-                <FormField
-                  control={form.control}
-                  name="notificationLink"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{notificationChannel === "Slack" ? "Slack Webhook URL" : "Email Address"}</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder={notificationChannel === "Slack" 
-                            ? "Enter Slack webhook URL" 
-                            : "Enter email address"}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
             </div>
+            {notificationChannel === "Slack" && (
+              <p className="text-sm text-muted-foreground">
+                Your scan results will be sent to our Slack channel. Join our workspace at{" "}
+                <a 
+                  href="https://your-workspace.slack.com/channels/scan-results" 
+                  className="text-primary hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  #scan-results
+                </a>
+              </p>
+            )}
           </div>
         )}
 

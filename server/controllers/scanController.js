@@ -72,6 +72,13 @@ const generateConfig = (url, tool, name) => {
                 type: "io.kestra.plugin.core.debug.Return",
                 format: "Subflows completed successfully!",
             },
+            {
+                id: "send_alert",
+                type: "io.kestra.plugin.notifications.slack.SlackExecution",
+                url: "https://hooks.slack.com/services/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",
+                channel: "#notifications",
+                customMessage: `Your Scan is Done for id: ${auraId} name: ${name}`
+            }
         ],
     };
 };
