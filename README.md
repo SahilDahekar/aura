@@ -94,6 +94,8 @@
 4. **Setup Kestra locally**
 
    Link to Kestra documentation -  https://kestra.io/docs/getting-started
+   Kestra files are present in /kestra folder.
+   Main flow is present in main.yaml file and subflow are present in rest of the files.
    
 5. **Change axios base url**
       Paste the below code to client/src/lib/api.ts
