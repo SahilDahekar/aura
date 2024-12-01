@@ -90,6 +90,7 @@
    npm run dev
    ```
 4. **Setup Kestra locally**
+
    Link to Kestra documentation -  https://kestra.io/docs/getting-started
    
 
