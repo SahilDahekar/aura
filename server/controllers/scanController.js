@@ -3,6 +3,7 @@ import yaml from "js-yaml";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
+
 const generateConfig = (url, tool, name) => {
     // Validate inputs
     if (!url) {
@@ -75,7 +76,7 @@ const generateConfig = (url, tool, name) => {
             {
                 id: "send_alert",
                 type: "io.kestra.plugin.notifications.slack.SlackExecution",
-                url: "https://hooks.slack.com/services/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",
+                url: "https://hooks.slack.com/services/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",
                 channel: "#notifications",
                 customMessage: `Your Scan is Done for id: ${auraId} name: ${name}`
             }
@@ -143,7 +144,7 @@ const createKestraFlow = async (yamlConfig) => {
     try {
         console.log("inside createFlow")
         const res = await axios.post(
-            "http://localhost:8080/api/v1/flows", // Replace with your Kestra API URL
+            "https://kestra.parthbhattad.in/api/v1/flows", // Replace with your Kestra API URL
             yamlConfig,
             {
                 headers: {
@@ -167,7 +168,7 @@ export const execKestraFlow = async (req,res) => {
   const {name,id} = req.body;
     try {
         const res = await axios.post(
-            `http://localhost:8080/api/v1/executions/trigger/${name}/${id}`,
+            `https://kestra.parthbhattad.in/api/v1/executions/trigger/${name}/${id}`,
             {}, // Empty body since the documentation doesn't specify a required body
             {
                 headers: {

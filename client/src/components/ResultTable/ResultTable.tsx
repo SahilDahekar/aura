@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Checkbox } from '@/components/ui/checkbox';
 import { AlertTriangle, Info, ShieldAlert, Copy, CheckCheck, Filter, ExternalLink } from 'lucide-react';
@@ -27,6 +27,7 @@ interface ResultTableProps {
   };
 }
 
+// @ts-ignore
 const ResultTable: React.FC<ResultTableProps> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);

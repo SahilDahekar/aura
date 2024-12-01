@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser('secret'))
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: 'https://aura.parthbhattad.in',
     credentials: true, // This allows cookies to be sent/received
     optionsSuccessStatus: 200
   }

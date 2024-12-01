@@ -66,7 +66,7 @@ function Login() {
       if(auth?.user){
         setTimeout(()=>{
             toast({
-                title : `Logged in as ${auth?.user?.name}`
+                title : `Logged in successfully`
             })
             navigate("/dashboard");
         }, 500);

@@ -14,7 +14,7 @@ const Navbar = () => {
     function handleLogout(){
         auth?.logout();
         toast({
-            title : `Logged out ${auth?.user?.name}`
+            title : `Logged out successfully`
         });
     }
 

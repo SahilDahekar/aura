@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { MultiSelect } from "@/components/MultiSelect/multi-select";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import api from "@/lib/api";
-import { useAuth } from "@/context/AuthContext";
 
 // Updated Zod Schema with a single URL field
 const formSchema = z.object({
@@ -37,7 +36,6 @@ const frameworksList = [
 ];
 
 export default function MultiPartForm() {
-  const auth = useAuth();
   const [step, setStep] = useState(0);
   const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([]);
 
@@ -126,60 +124,6 @@ export default function MultiPartForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 max-w-2xl py-6"
       >
-        {/* {step === 0 && (
-          <div className="space-y-6">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter your name"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="tools"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Select your tools</FormLabel>
-                  <FormControl>
-                    <MultiSelect
-                      options={frameworksList}
-                      onValueChange={(value) => {
-                        field.onChange(value);
-                        setSelectedFrameworks(value);
-                      }}
-                      defaultValue={selectedFrameworks}
-                      placeholder="Select tools"
-                      variant="inverted"
-                      animation={2}
-                      maxCount={3}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                  
-                  <div className="mt-4">
-                    <h2 className="text-xl font-semibold">Selected Tools:</h2>
-                    <ul className="list-disc list-inside">
-                      {selectedFrameworks.map((framework) => (
-                        <li key={framework}>{framework}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </FormItem>
-              )}
-            />
-          </div>
-        )} */}
 
         {step === 0 && (
           <div className="space-y-6">
@@ -315,7 +259,7 @@ export default function MultiPartForm() {
               <p className="text-sm text-muted-foreground">
                 Your scan results will be sent to our Slack channel. Join our workspace at{" "}
                 <a 
-                  href="https://your-workspace.slack.com/channels/scan-results" 
+                  href="https://join.slack.com/t/auratestworkspace/shared_invite/zt-2v9lmekef-vpCYzjAZwM57nTdKjId2rQ" 
                   className="text-primary hover:underline"
                   target="_blank"
                   rel="noopener noreferrer"

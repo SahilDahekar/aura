@@ -55,7 +55,7 @@ function Register() {
         try {
             await auth?.signup(name, email, password);
             toast({
-                title : `Logged in as ${name}`
+                title : `Logged in successfully`
             });
             setIsLoading(false);
           } catch (error) {
@@ -74,7 +74,7 @@ function Register() {
       if(auth?.user){
         setTimeout(() => {
             toast({
-                title : `Logged in as ${auth?.user?.name}`
+                title : `Logged in successfully`
             })
             navigate("/dashboard");
         }, 500);
