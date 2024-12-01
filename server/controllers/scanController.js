@@ -27,6 +27,7 @@ const generateConfig = (url, tool, name) => {
             flowId: "owasp_zap",
             inputs: {
                 link: url,
+                owasp_name: auraId,
             },
         });
     }
@@ -39,7 +40,7 @@ const generateConfig = (url, tool, name) => {
             flowId: "nikto_scan",
             inputs: {
                 link: url,
-                nikto_name: name
+                nikto_name: auraId,
             },
         });
     }

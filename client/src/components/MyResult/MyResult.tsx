@@ -87,7 +87,7 @@ const MyResult = () => {
       setIsLoading(true);
       const res = await api.post('result/getfile', { scanId: id });
       console.log(res.data);
-      setData(res.data.outputJSON);
+      setData(res.data);
       setError(null);
     } catch (error) {
       console.error('Error fetching data:', error);

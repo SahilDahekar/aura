@@ -229,7 +229,7 @@ const MyScan = () => {
               >
                 Start Scan
               </Button>
-              <Link to={`/dashboard/myresult/${scan._id}`} className="block">
+              <Link to={`/dashboard/myresult/${scan.auraId}`} className="block">
                 <Button
                   disabled={scan.status !== 'Completed'}
                   className="w-full py-2 rounded-md transition-colors"

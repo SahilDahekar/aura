@@ -7,14 +7,15 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const scanSchema = new mongoose.Schema({
-    userEmail: { type: String, }, 
-    auraId:{type:String},
-    name:{type:String},
-    tool: [{ type: String }],
-    url:{type:String,required:true},// Example: ['OWASP Zap', 'Nikto']
-    status: { type: String, default: 'Pending' },
-    createdAt: { type: Date, default: Date.now },
-  });
+  userEmail: { type: String }, 
+  auraId: { type: String, required: true }, // Used to find scans
+  name: { type: String },
+  tool: [{ type: String }], // Example: ['OWASP Zap', 'Nikto']
+  url: { type: String, required: true },
+  status: { type: String, default: 'Pending' },
+  createdAt: { type: Date, default: Date.now },
+  resultJSON: { type: mongoose.Schema.Types.Mixed }, // New field to store JSON result
+});
 
   const resultSchema = new mongoose.Schema({
     scanId: { type: mongoose.Schema.Types.ObjectId, ref: 'Scan' },

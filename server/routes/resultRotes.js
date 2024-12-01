@@ -5,7 +5,7 @@ import upload from "../middlewares/multer.js";
 const resultRouter = Router()
 
 resultRouter.post("/upload",upload.single('file'),uploadFile)   
-resultRouter.get("/getfile",getfiles)
+resultRouter.post("/getfile",getfiles)
 
 
 export default resultRouter
