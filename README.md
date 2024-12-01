@@ -28,6 +28,12 @@
    - Access detailed vulnerability insights categorized as:  
      🟥 **Critical**, 🟧 **High**, 🟨 **Low**.
 
+5. **Slack Intergration**  
+   - Once the scan completes, .the user will get a notification on his slack channel about status of the scan.
+     
+
+   
+
 ### ⚡ **Automated Workflow**
 - **Kestra-Powered Automation**  
   AURA leverages **Kestra** to automate the complete workflow, from initiating scans to fetching and displaying results.
