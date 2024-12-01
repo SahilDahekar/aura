@@ -97,14 +97,15 @@
    
 5. **Change axios base url**
       Paste the below code to client/src/lib/api.ts
-   ```bash
+    ```bash
    import axios from "axios";
 
 export default axios.create({
-    baseURL: "http://localhost:8000/api",
+    baseURL: "https://backend.parthbhattad.in/api",
     withCredentials: true,
 });
    ```
+   
     
 
 
