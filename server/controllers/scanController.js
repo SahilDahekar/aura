@@ -79,6 +79,7 @@ const generateConfig = (url, tool,name) => {
 
 
         const scan = await Scan.create({tool,url,userEmail:email,})
+        console.log(scan)
         const scanId = scan._id.toString()
 
         if (!Array.isArray(tool)) {

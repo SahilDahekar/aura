@@ -77,7 +77,8 @@ export default function MultiPartForm() {
       const payload = {
         url : values.commonUrl,
         tool : values.tools,
-        email : values.notificationLink
+        email : values.notificationLink,
+        name: values.name
       }
 
       console.log(payload)
