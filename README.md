@@ -127,7 +127,7 @@
 
 ---
 
-## 🎬 **Demo**
+## 🎥 **Demo**
    [AURA-Video Tutorial](https://drive.google.com/file/d/1xY6qr_EImDm1MnXsTIcBFLu4HhqM7vFW/view)   
 
 ---
