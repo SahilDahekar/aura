@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
 
-const generateConfig = (url, tool) => {
+const generateConfig = (url, tool,name) => {
     // Validate inputs
     if (!url) {
       throw new Error("URL is required");
@@ -47,7 +47,7 @@ const generateConfig = (url, tool) => {
     // Add the main configuration structure
     return {
       id: auraId,
-      namespace: "test",
+      namespace: name,
       inputs: [
         {
           id: "url",
@@ -73,7 +73,7 @@ const generateConfig = (url, tool) => {
   export const scanRequest = async(req,res)=>{
     try {
         console.log(req.body)
-        const { url,tool,email } = req.body;
+        const { url,tool,email,name } = req.body;
         
 
 
@@ -83,7 +83,7 @@ const generateConfig = (url, tool) => {
             throw new Error("Tool must be an array of strings");
           }
       
-          const config = generateConfig(url, tool);
+          const config = generateConfig(url, tool,name);
           const yamlConfig = yaml.dump(config); 
 
           const output = createKestraFlow(yamlConfig);
