@@ -94,6 +94,18 @@
 4. **Setup Kestra locally**
 
    Link to Kestra documentation -  https://kestra.io/docs/getting-started
+   
+5. **Change axios base url**
+      Paste the below code to client/src/lib/api.ts
+   ```bash
+   import axios from "axios";
+
+export default axios.create({
+    baseURL: "http://localhost:8000/api",
+    withCredentials: true,
+});
+   ```
+    
 
 
 
