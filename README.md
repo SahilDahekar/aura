@@ -98,17 +98,19 @@
    Main flow is present in main.yaml file and subflow are present in rest of the files.
    
 5. **Change axios base url**
-      Paste the below code to client/src/lib/api.ts
+
+   Paste the below code to client/src/lib/api.ts
     ```ts
    import axios from "axios";
 
    export default axios.create({
-    baseURL: "https://backend.parthbhattad.in/api",
+    baseURL: "http://localhost:8000/api",
     withCredentials: true,
    });
    ```
-6. **Change cookie domain to localhost**
-      Paste the below code to client/src/lib/api.ts
+7. **Change cookie domain to localhost**
+
+   Paste the below code to client/src/lib/api.ts
     ```js
      res.clearCookie("token", {
             httpOnly: true,
@@ -125,6 +127,16 @@
             maxAge: 60 * 60 * 1000,
             sameSite: "lax",
         });
+   ```
+8. **Change cors object in app.js**
+
+   Paste the below code to server/app.js
+    ```js
+      const corsOptions = {
+       origin: ['http://localhost:5173', 'http://localhost:8080'],
+       credentials: true, 
+       optionsSuccessStatus: 200
+     }
    ```
 
 ---
