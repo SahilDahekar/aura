@@ -13,10 +13,16 @@ import api from "@/lib/api";
 
 // Updated Zod Schema with a single URL field
 const formSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  id: z.string().min(1, "ID is required"),
+  name: z.string()
+    .min(1, "Name is required")
+    .transform(val => val.toLowerCase()),
   tools: z.array(z.string()).nonempty("Select at least one tool"),
-  commonUrl: z.string().min(1, "Common URL is required"),
+  commonUrl: z.string()
+    .min(1, "Common URL is required")
+    .url("Must be a valid URL")
+    .refine(val => val.startsWith('https://'), {
+      message: "Only HTTPS links are allowed"
+    }),
   notificationChannel: z.enum(["Slack", "Email"], { required_error: "Notification channel is required" }),
   notificationLink: z.string().min(1, "Notification link is required")
 });
@@ -38,7 +44,6 @@ export default function MultiPartForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      id: "",
       tools: [],
       commonUrl: "",
       notificationChannel: undefined,
@@ -52,7 +57,7 @@ export default function MultiPartForm() {
   function nextStep() {
     switch(step) {
       case 0:
-        form.trigger(["name", "id", "tools"]).then((isValid) => {
+        form.trigger(["name", "tools"]).then((isValid) => {
           if (isValid) {
             setStep((prev) => Math.min(prev + 1, 2));
           }
@@ -80,10 +85,10 @@ export default function MultiPartForm() {
         email : values.notificationLink,
         name: values.name
       }
-
+  
       console.log(payload)
-     const res= await api.post('/scan/scaninitiate', payload)
-     console.log(res.data)
+      const res = await api.post('/scan/scaninitiate', payload)
+      console.log(res.data)
     } catch (error) {
       console.log(error);
     }
@@ -92,7 +97,7 @@ export default function MultiPartForm() {
   const onSubmit: SubmitHandler<FormData> = (values) => {
     try {
       console.log(values);
-      submitData(values);
+      // submitData(values);
       form.reset();
       setStep(0);
       setSelectedFrameworks([]);
@@ -121,44 +126,22 @@ export default function MultiPartForm() {
       >
         {step === 0 && (
           <div className="space-y-6">
-            <div className="grid grid-cols-12 gap-4">
-              <div className="col-span-6">
-                <FormField
-                  control={form.control}
-                  name="id"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>ID</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter your ID"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="col-span-6">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter your name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             
             <FormField
               control={form.control}
