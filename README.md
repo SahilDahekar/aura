@@ -78,6 +78,7 @@
    ```
     ```bash
    cd server
+   npm i
    ```
 3. **Start client and sever**
    ```bash
