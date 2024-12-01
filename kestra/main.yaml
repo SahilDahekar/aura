@@ -1,0 +1,28 @@
+id: ba60449a-c178-4d38-b47d-81f6fcef3328
+namespace: scan1
+inputs:
+  - id: url
+    type: STRING
+    defaults: http://testphp.vulnweb.com
+  - id: name
+    type: STRING
+    defaults: '111'
+tasks:
+  - id: run-subflows
+    type: io.kestra.plugin.core.flow.Parallel
+    tasks:
+      - id: 3fa065e1-347d-490c-9ec1-8e50b582c05d
+        type: io.kestra.plugin.core.flow.Subflow
+        namespace: scans
+        flowId: owasp_zap
+        inputs:
+          link: https://www.wemakedevs.org/
+          owasp_name: ba60449a-c178-4d38-b47d-81f6fcef3328
+  - id: 07547712-8468-4c7a-889f-0124d7cffbd0
+    type: io.kestra.plugin.core.debug.Return
+    format: Subflows completed successfully!
+  - id: send_alert
+    type: io.kestra.plugin.notifications.slack.SlackExecution
+    url: "https://hooks.slack.com/services/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"
+    channel: '#notifications'
+    customMessage: 'Your Scan is Done for id: ba60449a-c178-4d38-b47d-81f6fcef3328 name: scan1'

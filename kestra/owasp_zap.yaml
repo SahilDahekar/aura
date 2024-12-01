@@ -1,0 +1,72 @@
+id: owasp_zap
+namespace: scans
+
+inputs:
+  - id: link
+    type: STRING
+    defaults: https://www.wemakedevs.org/
+  - id: owasp_name
+    type: STRING
+
+tasks:
+  - id: run_zap_scan
+    type: io.kestra.plugin.docker.Run
+    containerImage: ghcr.io/zaproxy/zaproxy:stable
+    entryPoint: ["/bin/sh", "-c"]
+    outputFiles:
+      - "*.json"
+    commands:
+      - "/zap/zap-baseline.py -t {{inputs.link}} -J {{inputs.owasp_name}}_owasp.json -I"
+    volumes:
+      - "/home/sahil/files:/zap/wrk/:rw"
+
+  - id: commands
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    outputFiles:
+      - "*.json"
+    commands:
+    - cat /files/{{inputs.owasp_name}}_owasp.json > owasp.json
+
+  - id: merge_json_data
+    type: io.kestra.plugin.scripts.python.Script
+    containerImage: ghcr.io/kestra-io/pydata:latest
+    outputFiles:
+      - "*.json"
+    script: |
+      import json
+
+      # File path
+      file_path = "{{outputs.commands.outputFiles['owasp.json']}}"
+
+      # New scanid to prepend
+      scanid = "{{inputs.owasp_name}}"
+
+      # Read existing JSON
+      with open(file_path, "r") as file:
+          data = json.load(file)
+
+
+      updated_data = {"scanid": scanid}
+      if isinstance(data, dict):
+          updated_data.update(data)
+      else:
+          raise ValueError("Expected JSON object at root of file.")
+
+      with open("output.json", "w") as file:
+          json.dump(updated_data, file, indent=4)
+
+  - id: send_data
+    type: io.kestra.plugin.core.http.Request
+    uri: http://172.17.0.1:8000/api/result/upload
+    method: POST
+    contentType: application/json
+    body: "{{ read(outputs.merge_json_data.outputFiles['output.json']) }}"
+
+
+
+outputs:
+  - id: final
+    type: FILE
+    value: "{{outputs.merge_json_data.outputFiles['output.json']}}"

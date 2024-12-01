@@ -1,0 +1,38 @@
+id: nikto_scan
+namespace: scans
+
+inputs:
+  - id: link
+    type: STRING
+  - id: nikto_name
+    type: STRING
+tasks:
+  - id: nikto
+    type: io.kestra.plugin.docker.Run
+    containerImage: prathameshvkirad/scans
+    outputFiles:
+      - "*.json"
+    commands:
+      - "--host"
+      - "{{inputs.link}}"
+      - "-o"
+      - "/files/{{inputs.nikto_name}}_nikto.json"
+      - "-ssl"
+    volumes:
+      - "/home/sahil/files:/files/:rw"
+
+  - id: commands
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    outputFiles:
+      - "*.json"
+    commands:
+    - cat /files/{{inputs.nikto_name}}_nikto.json > {{inputs.nikto_name}}_nikto.json
+
+  - id: send_data
+    type: io.kestra.plugin.core.http.Request
+    uri: http://host.docker.internal:8000/api/result/upload
+    method: POST
+    contentType: application/json
+    body: "{{ read(outputs.commands.outputFiles['{{input_nikto_name}}_nikto.json']) }}"
