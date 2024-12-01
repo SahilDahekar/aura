@@ -97,7 +97,7 @@ export const logout = async (req, res, next) => {
 
         res.clearCookie("token", {
             httpOnly: true,
-            domain: "Parthbhattad.in",
+            domain: "parthbhattad.in",
             signed: true,
             path: "/",
         });
