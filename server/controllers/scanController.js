@@ -144,7 +144,7 @@ const createKestraFlow = async (yamlConfig) => {
     try {
         console.log("inside createFlow")
         const res = await axios.post(
-            "https://kestra.parthbhattad.in/api/v1/flows", // Replace with your Kestra API URL
+            "http://localhost:8080/api/v1/flows", // Replace with your Kestra API URL
             yamlConfig,
             {
                 headers: {
@@ -168,7 +168,7 @@ export const execKestraFlow = async (req,res) => {
   const {name,id} = req.body;
     try {
         const res = await axios.post(
-            `https://kestra.parthbhattad.in/api/v1/executions/trigger/${name}/${id}`,
+            `http://localhost:8080/api/v1/executions/trigger/${name}/${id}`,
             {}, // Empty body since the documentation doesn't specify a required body
             {
                 headers: {
