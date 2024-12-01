@@ -3,55 +3,66 @@ import fs from 'fs'
 import mongoose from "mongoose";
 import path from "path";
 
- // Replace with the correct path to your Result model
-
 export const uploadFile = async (req, res) => {
   try {
-    // Extract the file name (without extension) as scanId
-    const fileName = path.basename(req.file.path); // E.g., '674af6d38b90ebf2f9a03067.json'
-    const scanIdPart = fileName.split('.')[0]; // Remove the file extension
-    const scanId = scanIdPart.split('-')[1];
-    console.log(scanId)// Extract '674af6d38b90ebf2f9a03067'
-
-    // Validate scanId
-    if (!mongoose.Types.ObjectId.isValid(scanId)) {
-      fs.unlinkSync(req.file.path); // Clean up the uploaded file
-      return res.status(400).json({ message: 'Invalid scanId in file name' });
-    }
-
-    const filePath = req.file.path;
-
-    if (req.file.mimetype === 'application/json') {
-      // Handle JSON file
-      const fileContent = fs.readFileSync(filePath, 'utf-8');
-      const jsonData = JSON.parse(fileContent);
-
-      // Save the result
-      const result = new Result({
-        scanId: new mongoose.Types.ObjectId(scanId),
-        outputJSON: JSON.stringify(jsonData),
-      });
-
-      await result.save();
-
-      // Clean up the uploaded file
-      fs.unlinkSync(filePath);
-
-      res.status(201).json({
-        message: 'JSON file uploaded and saved',
-        resultId: result._id,
-        scanId: scanId,
-      });
+    // Extract the file name from the request
+    const fileName = req.body.fileName || 'unknown-scan'; // Fallback if fileName not provided
+    
+    // More flexible regex to extract scanId
+    const scanIdExtractMatch = fileName.match(/([a-zA-Z0-9-_]+)\.json$/);
+    
+    let extractedScanId;
+    if (scanIdExtractMatch) {
+      extractedScanId = scanIdExtractMatch[1];
     } else {
-      fs.unlinkSync(filePath); // Clean up for unsupported file types
-      res.status(400).json({ message: 'Unsupported file type. Only JSON is allowed.' });
+      // Generate a random ID if no matching pattern found
+      extractedScanId = new mongoose.Types.ObjectId().toString();
     }
+
+    // Validate scanId format (less strict)
+    if (extractedScanId.length < 10) {
+      return res.status(400).json({ message: 'Invalid scanId format' });
+    }
+
+    // Ensure the input is a valid JSON
+    if (typeof req.body !== 'object' || req.body === null) {
+      return res.status(400).json({ message: 'Invalid JSON input' });
+    }
+
+    // Generate a unique filename
+    const uniqueFileName = `${extractedScanId}.json`;
+    const filePath = path.join('../uploads', uniqueFileName);
+
+    // Ensure upload directory exists
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+
+    // Write JSON to file
+    fs.writeFileSync(filePath, JSON.stringify(req.body, null, 2), 'utf-8');
+
+    // Save the result in the database
+    const result = new Result({
+      scanId: new mongoose.Types.ObjectId(extractedScanId),
+      outputJSON: JSON.stringify(req.body),
+      filePath: filePath,
+      originalFileName: fileName
+    });
+
+    await result.save();
+
+    res.status(201).json({
+      message: 'JSON file uploaded and saved',
+      resultId: result._id,
+      scanId: extractedScanId,
+      fileName: uniqueFileName
+    });
   } catch (error) {
     console.error('Error processing upload:', error);
-    res.status(500).json({ message: 'Error uploading file', error: error.message });
+    res.status(500).json({ 
+      message: 'Error uploading file', 
+      error: error.message 
+    });
   }
 };
-
 
 export const getfiles = async(req,res)=>{
     try {

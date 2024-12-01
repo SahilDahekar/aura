@@ -1,0 +1,88 @@
+[
+  {
+    "host": "www.wemakedevs.org",
+    "ip": "76.76.21.142",
+    "port": "443",
+    "banner": "",
+    "vulnerabilities": [
+      {
+        "id": "999986",
+        "method": "GET",
+        "url": "/",
+        "msg": "Retrieved access-control-allow-origin header: *."
+      },
+      {
+        "id": "999100",
+        "method": "GET",
+        "url": "/",
+        "msg": "Uncommon header(s) 'x-matched-path' found, with contents: /."
+      },
+      {
+        "id": "999100",
+        "method": "GET",
+        "url": "/",
+        "msg": "Uncommon header(s) 'x-vercel-id' found, with contents: bom1::zfhk4-1733029271269-98904ee610b6."
+      },
+      {
+        "id": "999100",
+        "method": "GET",
+        "url": "/",
+        "msg": "Uncommon header(s) 'x-vercel-cache' found, with contents: HIT."
+      },
+      {
+        "id": "999100",
+        "method": "GET",
+        "url": "/",
+        "msg": "Uncommon header(s) 'content-disposition' found, with contents: inline."
+      },
+      {
+        "id": "999103",
+        "references": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/",
+        "method": "GET",
+        "url": "/",
+        "msg": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type."
+      },
+      {
+        "id": "999100",
+        "method": "GET",
+        "url": "/F0AOSkdk/",
+        "msg": "Uncommon header(s) 'refresh' found, with contents: 0;url=/F0AOSkdk."
+      },
+      {
+        "id": "999966",
+        "references": "http://breachattack.com/",
+        "method": "GET",
+        "url": "/",
+        "msg": "The Content-Encoding header is set to \\\"deflate\\\" which may mean that the server is vulnerable to the BREACH attack."
+      },
+      {
+        "id": "013587",
+        "references": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options",
+        "method": "GET",
+        "url": "/",
+        "msg": "Suggested security header missing: x-content-type-options."
+      },
+      {
+        "id": "013587",
+        "references": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy",
+        "method": "GET",
+        "url": "/",
+        "msg": "Suggested security header missing: referrer-policy."
+      },
+      {
+        "id": "013587",
+        "references": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy",
+        "method": "GET",
+        "url": "/",
+        "msg": "Suggested security header missing: permissions-policy."
+      },
+      {
+        "id": "013587",
+        "references": "https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP",
+        "method": "GET",
+        "url": "/",
+        "msg": "Suggested security header missing: content-security-policy."
+      }
+    ]
+  }
+]
