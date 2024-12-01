@@ -21,7 +21,7 @@ export const register = async (req, res) => {
         res.cookie("token", token, {
             path: "/",
             httpOnly: true,
-            domain: "localhost",
+            domain: "parthbhattad.in",
             maxAge: 60 * 60 * 1000,
             sameSite: "lax",
         });
@@ -68,7 +68,7 @@ export const login = async (req, res) => {
         res.cookie("token", token, {
             path: "/",
             httpOnly: true,
-            domain: "localhost",
+            domain: "parthbhattad.in",
             maxAge: 60 * 60 * 1000,
             sameSite: "lax",
         });
@@ -97,7 +97,7 @@ export const logout = async (req, res, next) => {
 
         res.clearCookie("token", {
             httpOnly: true,
-            domain: "localhost",
+            domain: "Parthbhattad.in",
             signed: true,
             path: "/",
         });
