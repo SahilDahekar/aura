@@ -97,7 +97,7 @@ export default function MultiPartForm() {
   const onSubmit: SubmitHandler<FormData> = (values) => {
     try {
       console.log(values);
-      // submitData(values);
+      submitData(values);
       form.reset();
       setStep(0);
       setSelectedFrameworks([]);

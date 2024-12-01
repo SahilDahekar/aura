@@ -36,9 +36,10 @@ const generateConfig = (url, tool, name) => {
             id: uuidv4(),
             type: "io.kestra.plugin.core.flow.Subflow",
             namespace: "scans",
-            flowId: "nikto",
+            flowId: "nikto_scan",
             inputs: {
                 link: url,
+                nikto_name: name
             },
         });
     }
@@ -53,6 +54,11 @@ const generateConfig = (url, tool, name) => {
                 type: "STRING",
                 defaults: "http://testphp.vulnweb.com",
             },
+            {
+                id: "name",
+                type: "STRING",
+                defaults: "111",
+            }
         ],
         tasks: [
             {
@@ -91,6 +97,7 @@ export const scanRequest = async (req, res) => {
         console.log(scan);
 
         const yamlConfig = yaml.dump(config);
+        console.log(yamlConfig);
 
         const output = createKestraFlow(yamlConfig);
         console.log(output);
@@ -126,6 +133,7 @@ export const getScans = async (req, res) => {
 
 const createKestraFlow = async (yamlConfig) => {
     try {
+        console.log("inside createFlow")
         const res = await axios.post(
             "http://localhost:8080/api/v1/flows", // Replace with your Kestra API URL
             yamlConfig,
@@ -135,6 +143,8 @@ const createKestraFlow = async (yamlConfig) => {
                 },
             }
         );
+
+        console.log("After api call of create flow")
 
         return res.data;
     } catch (error) {
