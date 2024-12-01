@@ -1,55 +1,57 @@
 import { Result } from "../models/User.js";
 import fs from 'fs'
 import mongoose from "mongoose";
+import path from "path";
 
+ // Replace with the correct path to your Result model
 
+export const uploadFile = async (req, res) => {
+  try {
+    // Extract the file name (without extension) as scanId
+    const fileName = path.basename(req.file.path); // E.g., '674af6d38b90ebf2f9a03067.json'
+    const scanIdPart = fileName.split('.')[0]; // Remove the file extension
+    const scanId = scanIdPart.split('-')[1];
+    console.log(scanId)// Extract '674af6d38b90ebf2f9a03067'
 
-export const uploadFile = async(req,res)=>{
-    try {
-        const scanId = new mongoose.Types.ObjectId("64b7f2e56f9f3a0010c12345"); 
-    
-        // Ensure scanId is provided
-        if (!scanId) {
-          return res.status(400).json({ message: 'scanId is required' });
-        }
-    
-        const filePath = req.file.path;
-    
-        if (req.file.mimetype === 'application/json') {
-          // Handle JSON file
-          const fileContent = fs.readFileSync(filePath, 'utf-8');
-          const jsonData = JSON.parse(fileContent);
-    
-          const result = new Result({
-            scanId,
-            outputJSON: JSON.stringify(jsonData),
-          });
-    
-          await result.save();
-    
-          // Clean up the uploaded file from the server
-          fs.unlinkSync(filePath);
-    
-          res.status(201).json({ message: 'JSON file uploaded and saved', resultId: result._id });
-        } else if (req.file.mimetype === 'text/csv') {
-          // Handle CSV file
-          const result = new Result({
-            scanId,
-            outputCSV: filePath, // Save the file path for later use
-          });
-    
-          await result.save();
-    
-          res.status(201).json({ message: 'CSV file uploaded and saved', resultId: result._id });
-        } else {
-          // Unsupported file type
-          fs.unlinkSync(filePath); // Clean up
-          res.status(400).json({ message: 'Unsupported file type. Only JSON and CSV are allowed.' });
-        }
-      } catch (error) {
-        res.status(500).json({ message: 'Error uploading file', error: error.message });
-      }
-}
+    // Validate scanId
+    if (!mongoose.Types.ObjectId.isValid(scanId)) {
+      fs.unlinkSync(req.file.path); // Clean up the uploaded file
+      return res.status(400).json({ message: 'Invalid scanId in file name' });
+    }
+
+    const filePath = req.file.path;
+
+    if (req.file.mimetype === 'application/json') {
+      // Handle JSON file
+      const fileContent = fs.readFileSync(filePath, 'utf-8');
+      const jsonData = JSON.parse(fileContent);
+
+      // Save the result
+      const result = new Result({
+        scanId: new mongoose.Types.ObjectId(scanId),
+        outputJSON: JSON.stringify(jsonData),
+      });
+
+      await result.save();
+
+      // Clean up the uploaded file
+      fs.unlinkSync(filePath);
+
+      res.status(201).json({
+        message: 'JSON file uploaded and saved',
+        resultId: result._id,
+        scanId: scanId,
+      });
+    } else {
+      fs.unlinkSync(filePath); // Clean up for unsupported file types
+      res.status(400).json({ message: 'Unsupported file type. Only JSON is allowed.' });
+    }
+  } catch (error) {
+    console.error('Error processing upload:', error);
+    res.status(500).json({ message: 'Error uploading file', error: error.message });
+  }
+};
+
 
 export const getfiles = async(req,res)=>{
     try {
