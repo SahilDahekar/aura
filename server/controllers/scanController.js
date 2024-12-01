@@ -42,6 +42,7 @@ const generateConfig = (url, tool,name) => {
           link: url,
         },
       });
+     
     }
   
     // Add the main configuration structure
@@ -87,11 +88,13 @@ const generateConfig = (url, tool,name) => {
           }
       
           const config = generateConfig(url, tool,name);
+          console.log("config : " ,config)
           const yamlConfig = yaml.dump(config); 
 
           const output = createKestraFlow(yamlConfig);
-          const output2 = sendingIdandIdoftheScan(name,scanId)
+          const output2 = sendingIdandIdoftheScan(name,config.id)
           console.log(output);
+          console.log(output2);
   
           res.setHeader('Content-Type', 'text/yaml');
           res.send(yamlConfig);
@@ -132,11 +135,22 @@ const generateConfig = (url, tool,name) => {
   const sendingIdandIdoftheScan = async (name,id) => {
     try {
       const res = await axios.post(
-        `http://localhost:8080/api/v1/executions/trigger/${name}/${id}`, 
+        `http://localhost:8080/api/v1/executions/trigger/${name}/${id}`,
+        {},  // Empty body since the documentation doesn't specify a required body
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          // Optional: you can add query parameters if needed
+          params: {
+            wait: false  // Default as per the documentation
+          }
+        }
       );
-    return res.data;
+      return res.data;
+
     } catch (error) {
-      console.error('Error posting flow:', error.response?.data || error.message);
+      console.error('Error executing flow:', error.response?.data || error.message);
     }
   }
 
