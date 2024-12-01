@@ -70,3 +70,29 @@
    ```bash
    git clone https://github.com/parthbhattad20/aura.git
    cd aura
+   ```
+2. **Install required dependencies in client and server folders**
+   ```bash
+   cd client 
+   npm i
+   ```
+    ```bash
+   cd server
+   ```
+3. **Start client and sever **
+   ```bash
+   cd client 
+   npm run dev
+   ```
+    ```bash
+   cd server
+   npm run dev
+   ```
+4. **Setup Kestra locally **
+   Link to Kestra documentation -  https://kestra.io/docs/getting-started
+   
+
+
+
+   
+   
