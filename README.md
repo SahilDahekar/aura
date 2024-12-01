@@ -79,7 +79,7 @@
     ```bash
    cd server
    ```
-3. **Start client and sever **
+3. **Start client and sever**
    ```bash
    cd client 
    npm run dev
@@ -88,7 +88,7 @@
    cd server
    npm run dev
    ```
-4. **Setup Kestra locally **
+4. **Setup Kestra locally**
    Link to Kestra documentation -  https://kestra.io/docs/getting-started
    
 
