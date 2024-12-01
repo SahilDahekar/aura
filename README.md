@@ -96,6 +96,16 @@
    Link to Kestra documentation -  https://kestra.io/docs/getting-started
    Kestra files are present in /kestra folder.
    Main flow is present in main.yaml file and subflow are present in rest of the files.
+   Key points to note in case of running kestra locally
+   - Bind mount for docker container in kestra's docker-compose.yaml file.
+   - Make sure the path volume in kestra yaml files is set for your local system/os.
+   - Same docker volume path in docker-compose.yaml and kestra flow yaml's.
+
+   Sample Images of docker-compose.yaml config
+   ![WhatsApp Image 2024-12-01 at 9 18 19 PM](https://github.com/user-attachments/assets/47118f5e-03f3-487f-bd08-b64c93788630)
+   ![WhatsApp Image 2024-12-01 at 9 18 19 PM](https://github.com/user-attachments/assets/ffc0ce9d-1b9b-4516-aaeb-32468788496d)
+
+
    
 5. **Change axios base url**
 
