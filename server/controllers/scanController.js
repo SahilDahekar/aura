@@ -78,6 +78,7 @@ const generateConfig = (url, tool) => {
 
 
         const scan = await Scan.create({tool,url,userEmail:email,})
+        const scanId = scan._id.toString();
 
         if (!Array.isArray(tool)) {
             throw new Error("Tool must be an array of strings");
@@ -86,7 +87,7 @@ const generateConfig = (url, tool) => {
           const config = generateConfig(url, tool);
           const yamlConfig = yaml.dump(config); 
 
-          const output = createKestraFlow(yamlConfig);
+          const output = createKestraFlow(yamlConfig,scanId);
           console.log(output);
   
           res.setHeader('Content-Type', 'text/yaml');
@@ -107,14 +108,22 @@ const generateConfig = (url, tool) => {
 
   }
 
-  const createKestraFlow = async (yamlConfig) => {
+  const createKestraFlow = async (yamlConfig, id) => {
     try {
+
+      const formData = new FormData();
+  
+   
+      formData.append('flowConfig', yamlConfig, { filename: 'config.yaml', contentType: 'application/x-yaml' });
+      formData.append('id', id);
+  
+     
       const res = await axios.post(
-        'http://localhost:8080/api/v1/flows', // Replace with your Kestra API URL
-        yamlConfig,
+        'http://localhost:8080/api/v1/flows', 
+        formData,
         {
           headers: {
-            'Content-Type': 'application/x-yaml', // Specify the content type
+            ...formData.getHeaders(), 
           },
         }
       );
@@ -122,6 +131,8 @@ const generateConfig = (url, tool) => {
       return res.data;
     } catch (error) {
       console.error('Error posting flow:', error.response?.data || error.message);
+      throw new Error('Failed to send the flow to Kestra API');
     }
-  }
+  };
+  
 
