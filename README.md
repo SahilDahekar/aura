@@ -30,6 +30,8 @@
 
 5. **Slack Intergration**  
    - Once the scan completes, .the user will get a notification on his slack channel about status of the scan.
+   ![Slack notifications](https://github.com/user-attachments/assets/50fb1a1b-29e4-4324-9900-badd851701a3)
+
      
 
    
