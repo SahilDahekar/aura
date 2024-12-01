@@ -74,10 +74,12 @@ const generateConfig = (url, tool,name) => {
     try {
         console.log(req.body)
         const { url,tool,email,name } = req.body;
+        console.log(tool)
         
 
 
         const scan = await Scan.create({tool,url,userEmail:email,})
+        const scanId = scan._id.toString()
 
         if (!Array.isArray(tool)) {
             throw new Error("Tool must be an array of strings");
@@ -87,6 +89,7 @@ const generateConfig = (url, tool,name) => {
           const yamlConfig = yaml.dump(config); 
 
           const output = createKestraFlow(yamlConfig);
+          const output2 = sendingIdandIdoftheScan(name,scanId)
           console.log(output);
   
           res.setHeader('Content-Type', 'text/yaml');
@@ -120,6 +123,17 @@ const generateConfig = (url, tool,name) => {
       );
   
       return res.data;
+    } catch (error) {
+      console.error('Error posting flow:', error.response?.data || error.message);
+    }
+  }
+
+  const sendingIdandIdoftheScan = async (name,id) => {
+    try {
+      const res = await axios.post(
+        `http://localhost:8080/api/v1/executions/trigger/${name}/${id}`, 
+      );
+    return res.data;
     } catch (error) {
       console.error('Error posting flow:', error.response?.data || error.message);
     }
