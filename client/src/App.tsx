@@ -19,7 +19,7 @@ const AppRouter = () => {
         {/* <Route path='/dashboard' element={<Dashboard/>} > */}
           <Route index element={<NewScan />}/>
           <Route path='/dashboard/myscan' element={<MyScan />}/>
-          <Route path='/dashboard/myresult' element={<MyResult />}/>
+          <Route path='/dashboard/myresult/:id' element={<MyResult />} />
         </Route>
       </Routes> 
     </BrowserRouter>

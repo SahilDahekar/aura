@@ -97,20 +97,29 @@ export const scanRequest = async (req, res) => {
 
         // res.setHeader("Content-Type", "text/yaml");
         // res.send(yamlConfig);
-        res.staus(200).json({message:"scan created successfully",scan:scan})
+        res.status(200).json({message:"scan created successfully",scan:scan})
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
 
 export const getScans = async (req, res) => {
-    const email = res.locals.jwtData.email;
+    const email = res.locals.jwtData.email;  // Assuming email is in the decoded JWT
     try {
-        const scans = Scan.find({ email });
-        res.staus(200).json(scans);
+        // Ensure the result of the query is awaited
+        const scans = await Scan.find({ userEmail: email });
+        console.log(scans);
+
+        // Send the response after the data is retrieved
+       return  res.status(200).json(scans);
     } catch (err) {
+        // Log the error for debugging
+        console.error('Error getting scans:', err);
+
+        // Send a more detailed error message
         res.status(500).json({
-            message: "there was an error getting your scan requests ",
+            message: "There was an error getting your scan requests.",
+            error: err.message  // Include the error message for better debugging
         });
     }
 };

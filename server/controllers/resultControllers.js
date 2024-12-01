@@ -2,6 +2,7 @@ import { Result } from "../models/User.js";
 import fs from 'fs'
 import mongoose from "mongoose";
 import path from "path";
+import { Scan } from "../models/User.js";
 
 export const uploadFile = async (req, res) => {
   try {
@@ -39,6 +40,15 @@ export const uploadFile = async (req, res) => {
     // Write JSON to file
     fs.writeFileSync(filePath, JSON.stringify(req.body, null, 2), 'utf-8');
 
+    const scan = await Scan.findOne({ _id : extractedScanId });
+
+    if(!scan){
+      return res.status(404).json({ message:"Scan not found" });
+    }
+
+    scan.status="Completed";
+    await scan.save();
+
     // Save the result in the database
     const result = new Result({
       scanId: new mongoose.Types.ObjectId(extractedScanId),
@@ -66,7 +76,7 @@ export const uploadFile = async (req, res) => {
 
 export const getfiles = async(req,res)=>{
     try {
-        const scanId = new mongoose.Types.ObjectId("64b7f2e56f9f3a0010c12345"); 
+        const scanId = req.body;
         const result = await Result.findOne({scanId});
     
         if (!result) {

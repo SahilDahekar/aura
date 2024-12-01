@@ -27,16 +27,16 @@ const Dashboard = () => {
             <NavLink to='/dashboard/myscan'>
                 <Button variant='outline' className="font-messina-mono font-bold w-full uppercase">My Scans</Button>
             </NavLink>
-            <NavLink to='/dashboard/myresult'>
+            {/* <NavLink to='/dashboard/myresult'>
                 <Button variant='outline' className="font-messina-mono font-bold w-full uppercase">My Results</Button>
-            </NavLink>
+            </NavLink> */}
           </div>
           <div>
             <Button variant='secondary' onClick={handleLogout} className="font-messina-mono font-bold w-full">LOGOUT</Button>
           </div>
         </div>
 
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-8 overflow-y-auto">
           <Outlet />
         </div>
     </div>
